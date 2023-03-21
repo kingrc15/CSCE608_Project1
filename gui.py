@@ -32,9 +32,7 @@ class GUI(object):
         frame_title = tk.Frame(master=self.window)
         main_text = "Welcome to the Medical Database GUI"
         main_text += "\n Please select one of the options below to continue"
-        label = tk.Label(
-            master=frame_title, text=main_text, height=3
-        )
+        label = tk.Label(master=frame_title, text=main_text, height=3)
         label.pack()
         frame_title.pack()
 
@@ -790,7 +788,7 @@ class GUI(object):
 
         add_patient_btn = tk.Button(
             master=self.window,
-            text="Add Visit",
+            text="Add Patient",
             command=partial(
                 self.add_patient,
                 dob_field,
@@ -967,7 +965,7 @@ class GUI(object):
             widget.destroy()
 
         self.prev_page = self.curr_page
-        self.curr_page = "Add Patient Form"
+        self.curr_page = "Add Provider Form"
         self.generate_header()
 
         name_frame = tk.Frame(master=self.window)
@@ -1008,7 +1006,7 @@ class GUI(object):
 
         specialty_field = tk.Label(
             master=specialty_frame,
-            text="Please select a gender from the dropdown: ",
+            text="Please select a specialty from the dropdown: ",
             height=3,
         )
         specialty_field.grid(row=0, column=0)
@@ -1238,14 +1236,14 @@ class GUI(object):
             widget.destroy()
 
         self.prev_page = self.curr_page
-        self.curr_page = "Add Hospital Form"
+        self.curr_page = "Add Condition Form"
         self.generate_header()
 
         name_frame = tk.Frame(master=self.window)
 
         name_field = tk.Label(
             master=name_frame,
-            text="Please select a Patient ID from the dropdown: ",
+            text="Please select a condition name from the dropdown: ",
             height=3,
         )
         name_field.grid(row=0, column=0)
@@ -1317,7 +1315,7 @@ class GUI(object):
 
         visit_id_field = tk.Label(
             master=visit_id_frame,
-            text="Please select a Patient ID from the dropdown: ",
+            text="Please select a Visit ID from the dropdown: ",
             height=3,
         )
         visit_id_field.grid(row=0, column=0)
@@ -1427,12 +1425,12 @@ class GUI(object):
             widget.destroy()
 
         self.prev_page = self.curr_page
-        self.curr_page = "Hospital Added Form"
+        self.curr_page = "Condition Added Form"
         self.generate_header()
 
         visit_added_field = tk.Label(
             master=self.window,
-            text=f"Condition added with Hospital ID of {condition_id}",
+            text=f"Condition added with Condition ID of {condition_id}",
             height=3,
         )
         visit_added_field.pack()
@@ -1451,37 +1449,39 @@ class GUI(object):
 
         measurement_dt_field = tk.Label(
             master=measurement_dt_frame,
-            text="Please select a Date of Birth: ",
+            text="Please select a Datetime: ",
             height=3,
         )
         measurement_dt_field.grid(row=0, column=0)
 
-        measurement_dt_field = Calendar(measurement_dt_frame, selectmode="day", year=2020, month=5, day=22)
+        measurement_dt_field = Calendar(
+            measurement_dt_frame, selectmode="day", year=2020, month=5, day=22
+        )
         measurement_dt_field.grid(row=0, column=1)
 
         measurement_dt_frame.pack()
-
 
         value_as_number_frame = tk.Frame(master=self.window)
 
         value_as_number_field = tk.Label(
             master=value_as_number_frame,
-            text="Please enter the ZIP Code: ",
+            text="Please enter the measurement value: ",
             height=3,
         )
         value_as_number_field.grid(row=0, column=0)
 
-        value_as_number_field = tk.Spinbox(value_as_number_frame, from_=-500, to=50000, increment=0.01)
+        value_as_number_field = tk.Spinbox(
+            value_as_number_frame, from_=-500, to=50000, increment=0.01
+        )
         value_as_number_field.grid(row=0, column=1)
 
         value_as_number_frame.pack()
-
 
         unit_frame = tk.Frame(master=self.window)
 
         unit_field = tk.Label(
             master=unit_frame,
-            text="Please select a Patient ID from the dropdown: ",
+            text="Please select a unit from the dropdown: ",
             height=3,
         )
         unit_field.grid(row=0, column=0)
@@ -1500,7 +1500,7 @@ class GUI(object):
 
         name_field = tk.Label(
             master=name_frame,
-            text="Please select a Patient ID from the dropdown: ",
+            text="Please select a measurement name from the dropdown: ",
             height=3,
         )
         name_field.grid(row=0, column=0)
@@ -1519,7 +1519,7 @@ class GUI(object):
 
         visit_id_field = tk.Label(
             master=visit_id_frame,
-            text="Please select a Patient ID from the dropdown: ",
+            text="Please select a Visit ID from the dropdown: ",
             height=3,
         )
         visit_id_field.grid(row=0, column=0)
@@ -1587,7 +1587,7 @@ class GUI(object):
                 name_clicked,
                 visit_id_clicked,
                 clinician_id_clicked,
-                patient_id_clicked
+                patient_id_clicked,
             ),
             height=3,
         )
@@ -1595,14 +1595,23 @@ class GUI(object):
 
         self.generate_return()
 
-    def add_measurement(self, measurement_dt, value_as_number, unit, name, visit_id, provider_id, patient_id):
+    def add_measurement(
+        self,
+        measurement_dt,
+        value_as_number,
+        unit,
+        name,
+        visit_id,
+        provider_id,
+        patient_id,
+    ):
         measurement_dt = measurement_dt.get_date()
         value_as_number = value_as_number.get()
         unit = unit.get()
-        name= name.get()
+        name = name.get()
         visit_id = visit_id.get()
         provider_id = provider_id.get()
-        patient_id =patient_id.get()
+        patient_id = patient_id.get()
 
         self.cursor.execute("SELECT MAX(measurement_id) FROM measurement")
         measurement_id = self.cursor.fetchall()[0][0] + 1

@@ -113,7 +113,7 @@ def create_patient_df(source_df_dict):
     #  - ID - PATIENTS.subject_id
     #  - DOB - PATIENTS.dob
     #  - Name - generate
-    #  - Ethinicity - ADMISSIONS.ethnicity
+    #  - Ethnicity - ADMISSIONS.ethnicity
     #  - Gender - PATIENTS.gender
 
     patient_df = source_df_dict["patients_icd"][["subject_id", "dob", "gender"]]
@@ -406,12 +406,7 @@ df_dict["measured_on_df"] = create_measured_on_df(source_df_dict, df_dict)
 def create_performed_by_df(source_df_dict, df_dict):
     # Performed By
     #  - Measurement ID - CHARTEVENTS.row_id
-    #  - Provider ID - CAREGIVERS.cgid
-    """CREATE TABLE performed_by (
-        provider_id INT REFERENCES doctor,
-        measurement_id INT REFERENCES measurement,
-        PRIMARY KEY (provider_id, measurement_id)
-    );"""
+    #  - Provider ID - CHARTEVENTS.cgid
 
     performed_by_df = source_df_dict["chartevents_icd"][["row_id", "cgid"]].rename(
         columns={"row_id": "Measurement ID", "cgid": "Provider ID"},
@@ -459,6 +454,9 @@ def create_diagnosis_by_df(source_df_dict, df_dict):
 
 
 df_dict["diagnosed_by_df"] = create_diagnosis_by_df(source_df_dict, df_dict)
+
+for key, item in df_dict.items():
+    print(key, item.shape)
 
 
 
